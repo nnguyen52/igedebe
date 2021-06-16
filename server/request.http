@@ -1,0 +1,123 @@
+###
+POST https://id.twitch.tv/oauth2/token?client_id=5t9m4qnwuraip9o8mxg8avgcje9b3j&client_secret=d2xzgjxku7m9ontmfhf7u6q52ylojk&grant_type=client_credentials
+# Content-Type: application/json
+# clientID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+# secret:d2xzgjxku7m9ontmfhf7u6q52ylojk 
+#   "access_token": "7hn6j5lrixe1ex5sj2w1n8d0yokg63",
+#   "expires_in": 4994915,
+#   "token_type": "bearer"
+
+### 
+
+# POST http://localhost:8080/games/getAccessTokenGames
+POST  http://localhost:8080/games/getAccessTokenGames
+
+###
+
+POST https://api.igdb.com/v4/games/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer jwu5fxpexue5tatkkk89exkwyp3lsf
+Content-Type: application/json
+
+search "dying light 2"; fields name,release_dates.* ,hypes , total_rating , rating; limit 10;
+###
+
+# display 20 latest game for landing page
+POST https://api.igdb.com/v4/release_dates/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer jwu5fxpexue5tatkkk89exkwyp3lsf
+Content-Type: application/json
+
+#NOTE: date dynamically change
+# fields game.id ,  game.cover.*; limit 2; where game.platforms = 48 & date < 1622063955065; sort date desc;
+fields game.id, game.cover.image_id , game.name ,game.release_dates.* , game.hypes;  where game.platforms = 48 & date > 1623121183; sort hypes desc;
+###
+
+POST https://api.igdb.com/v4/games/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer yq99y7t7w7xd2qmleguqpvlt0aqacz
+Content-Type: application/json
+
+fields id ,name ; where id = 228151;
+
+###
+POST https://api.igdb.com/v4/companies/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer raqam8yzpb1v19esmo7ke4ymm97hil
+Content-Type: application/json
+
+fields name, developed.total_rating ,developed.total_rating_count  ; where name = "Team Ico";
+###
+# search game
+POST https://api.igdb.com/v4/games/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer 7hn6j5lrixe1ex5sj2w1n8d0yokg63
+Content-Type: application/json
+
+# note: search dynamic change
+# platforms arr => must fetch platform 48 
+fields cover.*, age_ratings.rating,artworks.url, 
+external_games.name, genres.name, genres.slug,
+screenshots.url,similar_games.name, similar_games.cover.url, 
+similar_games.name, videos.*; where id = 1942; 
+
+### 
+//3dpuzxya099pa1qz595jdlpjcxct9c
+//get One game based on ID 
+POST https://api.igdb.com/v4/games/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer qata3xrove0ifncjfoawgvyqfwoqf8
+Content-Type: application/json
+
+fields platforms.name, involved_companies.company.name, name,  id , rating,  artworks.image_id , cover.image_id , dlcs , first_release_date , genres.name , screenshots.image_id ,summary , total_rating , similar_games , videos.video_id; where id = (732, 1942);
+
+###
+
+POST https://api.igdb.com/v4/age_ratings
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer l5jdqmb4erjx611s2n60e294bmz2t7
+Content-Type: application/json
+ 
+fields category; limit 10; 
+
+###
+POST https://api.igdb.com/v4/release_dates/
+Client-ID: 5t9m4qnwuraip9o8mxg8avgcje9b3j
+Authorization: Bearer 5seubauit55ycejwk7214l3yjja4c2
+Content-Type: application/json
+
+# fields name, rating , cover.image_id ,total_rating  ,total_rating_count;where id = 1942;  
+fields game.id, game.cover.image_id , game.name ,game.hypes;  where game.platforms = 48 & date > 1623112352885; 
+
+
+###
+POST http://localhost:8080/user/register 
+# Authorization: Bearer accesstoken
+Content-Type: application/json
+
+{
+   "username" : "huy2",
+   "password" : "huy"  
+}
+
+###
+POST  http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+   "username" : "huy",
+   "password" : "huy"  
+}
+
+### 
+POST http://localhost:8080/checkout/checking
+Content-Type: application/json
+UserAuthorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGFkODdlNGYwMmRkNTQ4MDhlMDM2ZDYiLCJpYXQiOjE2MjIwMDkxNjB9.8-vW7OK-QL8RvKFjNfQ1-ZTo-5r8jVU8k3XauXnrHJQ
+
+{ 
+  "username": "huy",
+  "gamesPurchased" : ["1942" , "9999" ]
+}
+###
+GET http://localhost:8080/user/auth
+UserAuthorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGFkODdlNGYwMmRkNTQ4MDhlMDM2ZDYiLCJpYXQiOjE2MjIwMDkyNjF9.qiYOeQRSg-XVh_GTwCv4gdxlI35rgwoc3srefcPu1Bk
